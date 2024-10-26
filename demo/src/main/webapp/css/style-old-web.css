@@ -1,0 +1,26 @@
+body {
+    padding: 0 100px;
+    margin: 0;
+}
+
+.container > h3 {
+    padding: 0 30px;
+    color: #0F77AF;
+}
+
+#contact {
+    text-align: right;
+    background-color: #0F77AF;
+    padding: 10px;
+}
+
+.slidebar {
+    padding: 10px;
+    text-decoration: none;
+    color: gray;
+}
+
+.inline-80 {
+    display: inline-block;
+    width: 80px;
+}
