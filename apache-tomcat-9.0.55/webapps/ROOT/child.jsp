@@ -24,47 +24,11 @@
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600&display=swap" rel="stylesheet">
 
-
     <!--google material icon-->
     <link href="https://fonts.googleapis.com/css2?family=Material+Icons" rel="stylesheet">
 
+    <script src="js/child.js"></script>
 
-
-    <script>
-        function confirmDelete(id) {
-            const confirmDiv = document.getElementById('deleteChildModal');
-            const deleteButton = document.getElementById('deleteButton');
-            // console.log(contactId);
-            // console.log(confirmDiv);
-            // console.log(deleteButton);
-
-            deleteButton.onclick = function() {
-                window.location.href = '/child/child_delete?id=' + id;
-            };
-            confirmDiv.style.display = 'block';
-        }
-
-        function showAddChildForm() {
-            document.getElementById('addChildModal').style.display = 'block';
-        }
-
-        function showEditChildForm(id, firstName, lastName, gender, birthDate, createdDate, modifiedDate) {
-            console.log(id, firstName, lastName, gender, birthDate, createdDate, modifiedDate);
-            // console.log(firstName);
-            // console.log(lastName);
-            // console.log(relationship);
-            document.getElementById('editChildId').value = id;
-            document.getElementById('editFirstName').value = firstName;
-            document.getElementById('editLastName').value = lastName;
-            document.getElementById('editGender').value = gender;
-            document.getElementById('editBirthDate').value = birthDate;
-            document.getElementById('editCreatedDate').value = createdDate;
-            document.getElementById('editModifiedDate').value = modifiedDate;
-
-            document.getElementById('editChildModal').style.display = 'block';
-            document.getElementById('addChildModal').style.display = 'none'; // Ẩn form thêm
-        }
-    </script>
 </head>
 
 <body>

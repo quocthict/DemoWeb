@@ -15,50 +15,15 @@
     <!----css3---->
     <link rel="stylesheet" href="css/custom.css">
 
-
     <!--google fonts -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600&display=swap" rel="stylesheet">
 
-
     <!--google material icon-->
     <link href="https://fonts.googleapis.com/css2?family=Material+Icons" rel="stylesheet">
 
-<%--    <script src="js/contact.js"></script>--%>
-
-    <script>
-        function confirmDelete(contactId) {
-            const confirmDiv = document.getElementById('deleteContactModal');
-            const deleteButton = document.getElementById('deleteButton');
-            // console.log(contactId);
-            // console.log(confirmDiv);
-            // console.log(deleteButton);
-
-            deleteButton.onclick = function() {
-                window.location.href = 'contacts/contacts_delete?id=' + contactId;
-            };
-            confirmDiv.style.display = 'block';
-        }
-
-        function showAddContactForm() {
-            document.getElementById('addContactModal').style.display = 'block';
-        }
-
-        function showEditContactForm(contactId, firstName, lastName, relationship) {
-            // console.log(contactId);
-            // console.log(firstName);
-            // console.log(lastName);
-            // console.log(relationship);
-            document.getElementById('editContactId').value = contactId;
-            document.getElementById('editFirstName').value = firstName;
-            document.getElementById('editLastName').value = lastName;
-            document.getElementById('editRelationship').value = relationship;
-            document.getElementById('editContactModal').style.display = 'block';
-            document.getElementById('addContactModal').style.display = 'none'; // Ẩn form thêm
-        }
-    </script>
-
+    <script src="js/contact.js"></script>
 
 </head>
 

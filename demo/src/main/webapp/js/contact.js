@@ -1,3 +1,5 @@
+
+
 function confirmDelete(contactId) {
     const confirmDiv = document.getElementById('deleteContactModal');
     const deleteButton = document.getElementById('deleteButton');
@@ -11,7 +13,7 @@ function confirmDelete(contactId) {
     confirmDiv.style.display = 'block';
 }
 
-function showAddUserForm() {
+function showAddContactForm() {
     document.getElementById('addContactModal').style.display = 'block';
 }
 
