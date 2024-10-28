@@ -1,3 +1,6 @@
+<%@ page import="com.demo.model.StyleType" %>
+<%@ page import="java.util.List" %>
+<%@ page import="java.util.ArrayList" %>
 <!doctype html>
 
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
@@ -9,7 +12,7 @@
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
     <meta name="viewport" content="width=device-width, initial-scale=1, minimum-scale=1, maximum-scale=1">
-    <title>Contact Management</title>
+    <title>Sign Management</title>
     <!-- Bootstrap CSS -->
     <link rel="stylesheet" href="css/bootstrap.min.css">
     <!----css3---->
@@ -25,40 +28,38 @@
     <!--google material icon-->
     <link href="https://fonts.googleapis.com/css2?family=Material+Icons" rel="stylesheet">
 
-<%--    <script src="js/contact.js"></script>--%>
+    <script src="js/sign.js"></script>
 
-    <script>
-        function confirmDelete(contactId) {
-            const confirmDiv = document.getElementById('deleteContactModal');
-            const deleteButton = document.getElementById('deleteButton');
-            // console.log(contactId);
-            // console.log(confirmDiv);
-            // console.log(deleteButton);
+<%--    <script>--%>
+<%--        function confirmDelete(id) {--%>
+<%--            const confirmDiv = document.getElementById('deleteSignModal');--%>
+<%--            const deleteButton = document.getElementById('deleteButton');--%>
+<%--            // console.log(contactId);--%>
+<%--            // console.log(confirmDiv);--%>
+<%--            // console.log(deleteButton);--%>
 
-            deleteButton.onclick = function() {
-                window.location.href = 'contacts/contacts_delete?id=' + contactId;
-            };
-            confirmDiv.style.display = 'block';
-        }
+<%--            deleteButton.onclick = function() {--%>
+<%--                window.location.href = '/signs/signs_delete?id=' + id;--%>
+<%--            };--%>
+<%--            confirmDiv.style.display = 'block';--%>
+<%--        }--%>
 
-        function showAddContactForm() {
-            document.getElementById('addContactModal').style.display = 'block';
-        }
+<%--        function showAddSignForm() {--%>
+<%--            document.getElementById('addSignModal').style.display = 'block';--%>
+<%--        }--%>
 
-        function showEditContactForm(contactId, firstName, lastName, relationship) {
-            // console.log(contactId);
-            // console.log(firstName);
-            // console.log(lastName);
-            // console.log(relationship);
-            document.getElementById('editContactId').value = contactId;
-            document.getElementById('editFirstName').value = firstName;
-            document.getElementById('editLastName').value = lastName;
-            document.getElementById('editRelationship').value = relationship;
-            document.getElementById('editContactModal').style.display = 'block';
-            document.getElementById('addContactModal').style.display = 'none'; // Ẩn form thêm
-        }
-    </script>
-
+<%--        function showEditSignForm(id, bookingId, contactId, type, signTime, signature) {--%>
+<%--            console.log(id, bookingId, contactId, type, signTime, signature);--%>
+<%--            document.getElementById('editId').value = id;--%>
+<%--            document.getElementById('editBookingId').value = bookingId;--%>
+<%--            document.getElementById('editContactId').value = contactId;--%>
+<%--            document.getElementById('editType').value = type;--%>
+<%--            document.getElementById('editSignTime').value = signTime;--%>
+<%--            document.getElementById('editSignature').value = signature;--%>
+<%--            document.getElementById('editSignModal').style.display = 'block';--%>
+<%--            document.getElementById('addSignModal').style.display = 'none'; // Ẩn form thêm--%>
+<%--        }--%>
+<%--    </script>--%>
 
 </head>
 
@@ -276,14 +277,14 @@
                         <div class="table-title">
                             <div class="row">
                                 <div class="col-sm-6 p-0 flex justify-content-lg-start justify-content-center">
-                                    <h2 class="ml-lg-2">Manage Contacts</h2>
+                                    <h2 class="ml-lg-2">Manage Signs</h2>
                                 </div>
                                 <div class="col-sm-6 p-0 flex justify-content-lg-end justify-content-center">
-                                    <a href="#addContactModal" onclick="showAddContactForm();" class="btn btn-success" data-toggle="modal">
+                                    <a href="#addSignModal" onclick="showAddSignForm();" class="btn btn-success" data-toggle="modal">
                                         <i class="material-icons">&#xE147;</i>
                                         <span>Add New Contacts</span>
                                     </a>
-                                    <a href="#deleteContactModal" class="btn btn-danger" data-toggle="modal">
+                                    <a href="#deleteSignModal" class="btn btn-danger" data-toggle="modal">
                                         <i class="material-icons">&#xE15C;</i>
                                         <span>Delete</span>
                                     </a>
@@ -300,32 +301,48 @@
                                     <label for="selectAll"></label>
                                 </span></th>
                                 <th>Id</th>
-                                <th>First Name</th>
-                                <th>Last Name</th>
-                                <th>Relationship</th>
-                                <th>Actions</th>
+                                <th>Booking ID</th>
+                                <th>Contact ID</th>
+                                <th>Type</th>
+                                <th>Sign time</th>
+                                <th>Signature</th>
+                                <th>Created date</th>
+                                <th>Modified date</th>
                             </tr>
                             </thead>
 
                             <tbody>
                             <%--Show list of items--%>
-                            <c:forEach items="${listContacts}" var="x">
+                            <c:forEach items="${list}" var="x">
                                 <tr>
                                     <th>
                                     <span class="custom-checkbox">
                                     <input type="checkbox" id="checkbox1" name="option[]" value="1">
                                         <label for="checkbox1"></label></span>
                                     </th>
-                                    <th>${x.getId()}</th>
-                                    <th>${x.getFirst_name()}</th>
-                                    <th>${x.getLast_name()}</th>
-                                    <th>${x.getRelationship()}</th>
+                                    <td>${x.getId()}</td>
+                                    <td>${x.getBooking_id()}</td>
+                                    <td>${x.getContact_id()}</td>
+
+                                    <c:choose>
+                                        <c:when test="${x.getType()==1}">
+                                            <td>Sign_in</td>
+                                        </c:when>
+                                        <c:otherwise>
+                                            <td>Sign_out</td>
+                                        </c:otherwise>
+                                    </c:choose>
+
+                                    <td>${x.getSign_time()}</td>
+                                    <td>${x.getSignature()}</td>
+                                    <td>${x.getCreated_date()}</td>
+                                    <td>${x.getModified_date()}</td>
                                     <th>
-                                        <a href="#editContactModal" onclick="showEditContactForm(${x.getId()},'${x.getFirst_name()}','${x.getLast_name()}','${x.getRelationship()}'); return false;" class="edit" data-toggle="modal">
+                                        <a href="#editSignModal" onclick="showEditSignForm(${x.getId()},'${x.getBooking_id()}','${x.getContact_id()}','${x.getType()}','${x.getSign_time()}','${x.getSignature()}'); return false;" class="edit" data-toggle="modal">
                                             <i class="material-icons" data-toggle="tooltip" title="Edit">&#xE254;</i>
                                         </a>
-<%--                                        <a href="#deleteEmployeeModal" class="delete" data-toggle="modal">--%>
-                                        <a href="#deleteContactModal" onclick="confirmDelete(${x.getId()}); return false;"  class="delete" data-toggle="modal">
+
+                                        <a href="#deleteSignModal" onclick="confirmDelete(${x.getId()}); return false;"  class="delete" data-toggle="modal">
                                             <i class="material-icons" data-toggle="tooltip" title="Delete">&#xE872;</i>
                                         </a>
                                     </th>
@@ -352,32 +369,50 @@
 
 
                 <!----add-modal start--------->
-                <div class="modal fade" tabindex="-1" id="addContactModal" role="dialog">
+                <div class="modal fade" tabindex="-1" id="addSignModal" role="dialog">
                     <div class="modal-dialog" role="document">
                         <div class="modal-content">
                             <div class="modal-header">
-                                <h5 class="modal-title">Add Employees</h5>
+                                <h5 class="modal-title">Add sign</h5>
                                 <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                                     <span aria-hidden="true">&times;</span>
                                 </button>
                             </div>
-                            <form action="/contacts/contacts_add" method="post">
+                            <form action="/signs/signs_add" method="post">
                                 <div class="modal-body">
+<                                   <%--Booking id--%>
                                     <div class="form-group">
-                                        <label>First name</label>
-                                        <input id="first_name" name="first_name" type="text" class="form-control" required>
+                                        <label>Booking Id</label>
+                                        <input id="booking_id" type="text" name="booking_id" class="form-control" required>
                                     </div>
+
+                                    <%--Booking id--%>
                                     <div class="form-group">
-                                        <label>Last name</label>
-                                        <input id="last_name" name="last_name" type="text" class="form-control" required>
+                                        <label>Contact Id</label>
+                                        <input id="contact_id" type="text" name="contact_id" class="form-control" required>
                                     </div>
-<%--                                    <div class="form-group">--%>
-<%--                                        <label>Address</label>--%>
-<%--                                        <textarea class="form-control" required></textarea>--%>
-<%--                                    </div>--%>
+
+                                    <%--Sign type--%>
+                                    <%
+                                        int[] typeList = {0, 1};
+                                        request.setAttribute("typeList", typeList);
+                                    %>
+
                                     <div class="form-group">
-                                        <label>Relationship</label>
-                                        <input id="relationship" name="relationship" type="text" class="form-control" required>
+                                        <label>Type</label> &nbsp;
+                                        <select id="types" name="type" class="form-control">
+                                            <%----%>
+                                            <c:forEach var="type" items="${typeList}">
+                                                <option value="${type}" <c:if test="${type == 1}">selected</c:if>>
+                                                        ${type == 1 ? "Sign in" : "Sign out"}
+                                                </option>
+                                            </c:forEach>
+                                        </select>
+                                    </div>
+
+                                    <div>
+                                        <label>Sign time </label>
+                                        <input id="sign_time" type="time" name="sign_time" class="form-control">
                                     </div>
                                 </div>
                                 <div class="modal-footer">
@@ -392,35 +427,61 @@
 
 
                 <!----edit-modal start--------->
-                <div class="modal fade" tabindex="-1" id="editContactModal" role="dialog">
+                <div class="modal fade" tabindex="-1" id="editSignModal" role="dialog">
                     <div class="modal-dialog" role="document">
                         <div class="modal-content">
                             <div class="modal-header">
-                                <h5 class="modal-title">Edit Employees</h5>
+                                <h5 class="modal-title">Edit Sign</h5>
                                 <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                                     <span aria-hidden="true">&times;</span>
                                 </button>
                             </div>
 
-                            <form action="/contacts/contacts_update" method="post">
+                            <form action="/signs/signs_update" method="post">
                                 <div class="modal-body">
                                     <div class="form-group">
     <%--                                <label></label>--%>
-                                        <input id="editContactId" name="id" type="text" class="form-control" hidden="hidden">
+                                        <input id="editId" name="id" type="text" class="form-control" >
                                     </div>
+
                                     <div class="form-group">
-                                        <label>First name</label>
-                                        <input id="editFirstName" name="first_name" type="text" class="form-control" required>
+                                        <label>Booking ID</label> &nbsp;
+                                        <input id="editBookingId" name="booking_id" type="text" class="form-control" required>
                                     </div>
+
                                     <div class="form-group">
-                                        <label>Last name</label>
-                                        <input id="editLastName" name="last_name" type="text" class="form-control" required>
+                                        <label>Contact ID</label> &nbsp;
+                                        <input id="editContactId" name="contact_id" type="text" class="form-control" required>
                                     </div>
+
+                                    <%
+                                        List<StyleType> list = new ArrayList<>();
+                                        list.add(new StyleType(1,"Sign in"));
+                                        list.add(new StyleType(0, "Sign out"));
+                                        request.setAttribute("typeList",list);
+                                    %>
                                     <div class="form-group">
-                                        <label>Relationship</label>
-                                        <input id="editRelationship" name="relationship" type="text" class="form-control" required>
+                                        <label>Type</label>
+
+                                    &nbsp;<select id="editType" name="type" class="form-control">
+                                        <c:forEach var="type" items="${typeList}">
+                                            <option value="${type.numberType}">${type.stringType}</option>
+                                        </c:forEach>
+                                    </select>
+<%--                                        <input id="editType" name="type" type="text" class="form-control" required>--%>
+                                    </div>
+
+                                    <div class="form-group">
+                                        <label>Sign Time</label> &nbsp;
+                                        <input id="editSignTime" name="sign_time" type="time" class="form-control" required>
+                                    </div>
+
+                                    <div class="form-group">
+                                        <label>Signature</label> &nbsp;
+                                        <input id="editSignature" name="signature" type="text" class="form-control" required>
                                     </div>
                                 </div>
+
                                 <div class="modal-footer">
                                     <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancel</button>
                                     <button type="submit" class="btn btn-success">Save</button>
@@ -433,7 +494,7 @@
 
 
                 <!----delete-modal start OK--------->
-                <div class="modal fade" tabindex="-1" id="deleteContactModal" role="dialog">
+                <div class="modal fade" tabindex="-1" id="deleteSignModal" role="dialog">
                     <div class="modal-dialog" role="document">
                         <div class="modal-content">
                             <div class="modal-header">

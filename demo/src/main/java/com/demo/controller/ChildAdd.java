@@ -24,6 +24,7 @@ public class ChildAdd extends HttpServlet {
         //Step 1: Get data from name attribute of child_add.jsp
         String first_name = req.getParameter("first_name");
         String last_name = req.getParameter("last_name");
+
         int gender = Integer.parseInt(req.getParameter("gender"));
 
         String stringBirth_date = req.getParameter("birth_date");

@@ -14,12 +14,12 @@ public class Sign {
     private LocalDateTime created_date;
     private LocalDateTime modified_date;
 
-    public Sign(int id, int booking_id, int contact_id, int type, LocalTime sign_time, String signature, LocalDateTime created_date, LocalDateTime modified_date) {
+    public Sign(int id, int booking_id, int contact_id, int type, Time sign_time, String signature, LocalDateTime created_date, LocalDateTime modified_date) {
         this.id = id;
         this.booking_id = booking_id;
         this.contact_id = contact_id;
         this.type = type;
-        this.sign_time = Time.valueOf(sign_time);
+        this.sign_time = sign_time;
         this.signature = signature;
         this.created_date = created_date;
         this.modified_date = modified_date;
@@ -41,8 +41,8 @@ public class Sign {
         return type;
     }
 
-    public LocalTime getSign_time() {
-        return sign_time.toLocalTime();
+    public Time getSign_time() {
+        return sign_time;
     }
 
     public String getSignature() {

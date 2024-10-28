@@ -20,7 +20,7 @@ public class Child extends HttpServlet {
         List<com.demo.model.Child> list = childRepository.getAllChild();
 
         //step 2
-        req.setAttribute("listChild", list);
+        req.setAttribute("list", list);
         req.getRequestDispatcher("child.jsp").forward(req,resp);
     }
 }

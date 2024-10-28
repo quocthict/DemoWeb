@@ -25,6 +25,41 @@
     <!--google material icon-->
     <link href="https://fonts.googleapis.com/css2?family=Material+Icons" rel="stylesheet">
 
+<%--    <script src="js/contact.js"></script>--%>
+
+    <script>
+        function confirmDelete(contactId) {
+            const confirmDiv = document.getElementById('deleteContactModal');
+            const deleteButton = document.getElementById('deleteButton');
+            // console.log(contactId);
+            // console.log(confirmDiv);
+            // console.log(deleteButton);
+
+            deleteButton.onclick = function() {
+                window.location.href = 'contacts/contacts_delete?id=' + contactId;
+            };
+            confirmDiv.style.display = 'block';
+        }
+
+        function showAddContactForm() {
+            document.getElementById('addContactModal').style.display = 'block';
+        }
+
+        function showEditContactForm(contactId, firstName, lastName, relationship) {
+            // console.log(contactId);
+            // console.log(firstName);
+            // console.log(lastName);
+            // console.log(relationship);
+            document.getElementById('editContactId').value = contactId;
+            document.getElementById('editFirstName').value = firstName;
+            document.getElementById('editLastName').value = lastName;
+            document.getElementById('editRelationship').value = relationship;
+            document.getElementById('editContactModal').style.display = 'block';
+            document.getElementById('addContactModal').style.display = 'none'; // Ẩn form thêm
+        }
+    </script>
+
+
 </head>
 
 <body>
@@ -244,11 +279,11 @@
                                     <h2 class="ml-lg-2">Manage Contacts</h2>
                                 </div>
                                 <div class="col-sm-6 p-0 flex justify-content-lg-end justify-content-center">
-                                    <a href="#addEmployeeModal" class="btn btn-success" data-toggle="modal">
+                                    <a href="#addContactModal" onclick="showAddContactForm();" class="btn btn-success" data-toggle="modal">
                                         <i class="material-icons">&#xE147;</i>
                                         <span>Add New Contacts</span>
                                     </a>
-                                    <a href="#deleteEmployeeModal" class="btn btn-danger" data-toggle="modal">
+                                    <a href="#deleteContactModal" class="btn btn-danger" data-toggle="modal">
                                         <i class="material-icons">&#xE15C;</i>
                                         <span>Delete</span>
                                     </a>
@@ -257,12 +292,13 @@
                         </div>
 
                         <table class="table table-striped table-hover">
+                            <%--Table header--%>
                             <thead>
                             <tr>
                                 <th><span class="custom-checkbox">
                                     <input type="checkbox" id="selectAll">
                                     <label for="selectAll"></label>
-                                </th>
+                                </span></th>
                                 <th>Id</th>
                                 <th>First Name</th>
                                 <th>Last Name</th>
@@ -272,109 +308,33 @@
                             </thead>
 
                             <tbody>
+                            <%--Show list of items--%>
                             <c:forEach items="${listContacts}" var="x">
                                 <tr>
                                     <th>
                                     <span class="custom-checkbox">
                                     <input type="checkbox" id="checkbox1" name="option[]" value="1">
-                                    <label for="checkbox1"></label>
+                                        <label for="checkbox1"></label></span>
                                     </th>
                                     <th>${x.getId()}</th>
                                     <th>${x.getFirst_name()}</th>
                                     <th>${x.getLast_name()}</th>
                                     <th>${x.getRelationship()}</th>
                                     <th>
-                                        <a href="#editEmployeeModal?id=${x.getId()}" class="edit" data-toggle="modal">
+                                        <a href="#editContactModal" onclick="showEditContactForm(${x.getId()},'${x.getFirst_name()}','${x.getLast_name()}','${x.getRelationship()}'); return false;" class="edit" data-toggle="modal">
                                             <i class="material-icons" data-toggle="tooltip" title="Edit">&#xE254;</i>
                                         </a>
-                                        <a href="#deleteEmployeeModal?id=${x.getId()}" class="delete"
-                                           data-toggle="modal">
+<%--                                        <a href="#deleteEmployeeModal" class="delete" data-toggle="modal">--%>
+                                        <a href="#deleteContactModal" onclick="confirmDelete(${x.getId()}); return false;"  class="delete" data-toggle="modal">
                                             <i class="material-icons" data-toggle="tooltip" title="Delete">&#xE872;</i>
                                         </a>
                                     </th>
                                 </tr>
                             </c:forEach>
-
-
-                            <!--
-                            <tr>
-                                <th>
-                                                <span class="custom-checkbox">
-                                                    <input type="checkbox" id="checkbox2" name="option[]" value="1">
-                                                    <label for="checkbox2"></label>
-                                </th>
-                                <th>Dominique Perrier</th>
-                                <th>dominiquePerrier@gmail.com</th>
-                                <th>90r ser57, Berlin poland Bermany.</th>
-                                <th>(78-5235-2-9)</th>
-                                <th>
-                                    <a href="#editEmployeeModal" class="edit" data-toggle="modal">
-                                        <i class="material-icons" data-toggle="tooltip" title="Edit">&#xE254;</i>
-                                    </a>
-                                    <a href="#deleteEmployeeModal" class="delete" data-toggle="modal">
-                                        <i class="material-icons" data-toggle="tooltip" title="Delete">&#xE872;</i>
-                                    </a>
-                                </th>
-                            </tr>
-
-
-                            <tr>
-                                <th><span class="custom-checkbox">
-                                                    <input type="checkbox" id="checkbox3" name="option[]" value="1">
-                                                    <label for="checkbox3"></label></th>
-                                <th>Marai Andres</th>
-                                <th>MarariAndres@gmail.com</th>
-                                <th>90r ser57, Berlin poland Bermany.</th>
-                                <th>(78-239-669)</th>
-                                <th>
-                                    <a href="#edit" class="edit" data-toggle="modal">
-                                        <i class="material-icons" data-toggle="tooltip" title="Edit">&#xE254;</i>
-                                    </a>
-                                    <a href="#deleteEmployeeModal" class="delete" data-toggle="modal">
-                                        <i class="material-icons" data-toggle="tooltip" title="Delete">&#xE872;</i>
-                                    </a>
-                                </th>
-                            </tr>
-
-                            <tr>
-                                <th><span class="custom-checkbox">
-                                                    <input type="checkbox" id="checkbox4" name="option[]" value="1">
-                                                    <label for="checkbox4"></label></th>
-                                <th>Vishweb Design</th>
-                                <th>vishwebdesign@gmail.com</th>
-                                <th> B-2 ser57 Nodia East Delhi,India.</th>
-                                <th>(78-239-669)</th>
-                                <th>
-                                    <a href="#editEmployeeModal" class="edit" data-toggle="modal">
-                                        <i class="material-icons" data-toggle="tooltip" title="Edit">&#xE254;</i>
-                                    </a>
-                                    <a href="#deleteEmployeeModal" class="delete" data-toggle="modal">
-                                        <i class="material-icons" data-toggle="tooltip" title="Delete">&#xE872;</i>
-                                    </a>
-                                </th>
-                            </tr>
-
-                            <tr>
-                                <th><span class="custom-checkbox">
-                                                    <input type="checkbox" id="checkbox5" name="option[]" value="1">
-                                                    <label for="checkbox5"></label></th>
-                                <th>Vishwajeet Kumar</th>
-                                <th>vishkumar234@gmail.com</th>
-                                <th> B-2 ser57 Nodia East Delhi,India.</th>
-                                <th>(78-555-229)</th>
-                                <th>
-                                    <a href="#editEmployeeModal" class="edit" data-toggle="modal">
-                                        <i class="material-icons" data-toggle="tooltip" title="Edit">&#xE254;</i>
-                                    </a>
-                                    <a href="#deleteEmployeeModal" class="delete" data-toggle="modal">
-                                        <i class="material-icons" data-toggle="tooltip" title="Delete">&#xE872;</i>
-                                    </a>
-                                </th>
-                            </tr>
-                            -->
                             </tbody>
                         </table>
 
+                        <%--Show list of page--%>
                         <div class="clearfix">
                             <div class="hint-text">showing <b>10</b> out of <b>25</b></div>
                             <ul class="pagination">
@@ -392,7 +352,7 @@
 
 
                 <!----add-modal start--------->
-                <div class="modal fade" tabindex="-1" id="addEmployeeModal" role="dialog">
+                <div class="modal fade" tabindex="-1" id="addContactModal" role="dialog">
                     <div class="modal-dialog" role="document">
                         <div class="modal-content">
                             <div class="modal-header">
@@ -401,36 +361,38 @@
                                     <span aria-hidden="true">&times;</span>
                                 </button>
                             </div>
-                            <div class="modal-body">
-                                <div class="form-group">
-                                    <label>Name</label>
-                                    <input type="text" class="form-control" required>
+                            <form action="/contacts/contacts_add" method="post">
+                                <div class="modal-body">
+                                    <div class="form-group">
+                                        <label>First name</label>
+                                        <input id="first_name" name="first_name" type="text" class="form-control" required>
+                                    </div>
+                                    <div class="form-group">
+                                        <label>Last name</label>
+                                        <input id="last_name" name="last_name" type="text" class="form-control" required>
+                                    </div>
+<%--                                    <div class="form-group">--%>
+<%--                                        <label>Address</label>--%>
+<%--                                        <textarea class="form-control" required></textarea>--%>
+<%--                                    </div>--%>
+                                    <div class="form-group">
+                                        <label>Relationship</label>
+                                        <input id="relationship" name="relationship" type="text" class="form-control" required>
+                                    </div>
                                 </div>
-                                <div class="form-group">
-                                    <label>Email</label>
-                                    <input type="emil" class="form-control" required>
+                                <div class="modal-footer">
+                                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancel</button>
+                                    <button type="submit" class="btn btn-success">Add</button>
                                 </div>
-                                <div class="form-group">
-                                    <label>Address</label>
-                                    <textarea class="form-control" required></textarea>
-                                </div>
-                                <div class="form-group">
-                                    <label>Phone</label>
-                                    <input type="text" class="form-control" required>
-                                </div>
-                            </div>
-                            <div class="modal-footer">
-                                <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancel</button>
-                                <button type="button" class="btn btn-success">Add</button>
-                            </div>
+                            </form>
                         </div>
                     </div>
                 </div>
-                <!----edit-modal end--------->
+                <!----add-modal end--------->
 
 
                 <!----edit-modal start--------->
-                <div class="modal fade" tabindex="-1" id="editEmployeeModal" role="dialog">
+                <div class="modal fade" tabindex="-1" id="editContactModal" role="dialog">
                     <div class="modal-dialog" role="document">
                         <div class="modal-content">
                             <div class="modal-header">
@@ -439,36 +401,39 @@
                                     <span aria-hidden="true">&times;</span>
                                 </button>
                             </div>
-                            <div class="modal-body">
-                                <div class="form-group">
-                                    <label>Name</label>
-                                    <input type="text" class="form-control" required>
+
+                            <form action="/contacts/contacts_update" method="post">
+                                <div class="modal-body">
+                                    <div class="form-group">
+    <%--                                <label></label>--%>
+                                        <input id="editContactId" name="id" type="text" class="form-control" hidden="hidden">
+                                    </div>
+                                    <div class="form-group">
+                                        <label>First name</label>
+                                        <input id="editFirstName" name="first_name" type="text" class="form-control" required>
+                                    </div>
+                                    <div class="form-group">
+                                        <label>Last name</label>
+                                        <input id="editLastName" name="last_name" type="text" class="form-control" required>
+                                    </div>
+                                    <div class="form-group">
+                                        <label>Relationship</label>
+                                        <input id="editRelationship" name="relationship" type="text" class="form-control" required>
+                                    </div>
                                 </div>
-                                <div class="form-group">
-                                    <label>Email</label>
-                                    <input type="emil" class="form-control" required>
+                                <div class="modal-footer">
+                                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancel</button>
+                                    <button type="submit" class="btn btn-success">Save</button>
                                 </div>
-                                <div class="form-group">
-                                    <label>Address</label>
-                                    <textarea class="form-control" required></textarea>
-                                </div>
-                                <div class="form-group">
-                                    <label>Phone</label>
-                                    <input type="text" class="form-control" required>
-                                </div>
-                            </div>
-                            <div class="modal-footer">
-                                <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancel</button>
-                                <button type="button" class="btn btn-success">Save</button>
-                            </div>
+                            </form>
                         </div>
                     </div>
                 </div>
                 <!----edit-modal end--------->
 
 
-                <!----delete-modal start--------->
-                <div class="modal fade" tabindex="-1" id="deleteEmployeeModal" role="dialog">
+                <!----delete-modal start OK--------->
+                <div class="modal fade" tabindex="-1" id="deleteContactModal" role="dialog">
                     <div class="modal-dialog" role="document">
                         <div class="modal-content">
                             <div class="modal-header">
@@ -483,12 +448,13 @@
                             </div>
                             <div class="modal-footer">
                                 <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancel</button>
-                                <button type="button" class="btn btn-success">Delete</button>
+                                <button id="deleteButton" type="button" class="btn btn-success">Delete</button>
                             </div>
                         </div>
                     </div>
                 </div>
                 <!----delete-modal end--------->
+
             </div>
         </div>
         <!------main-content-end----------->
@@ -525,12 +491,11 @@
         $('.xp-menubar,.body-overlay').on('click', function () {
             $("#sidebar,.body-overlay").toggleClass('show-nav');
         });
-
     });
 </script>
 
 
-<script src="js/contact.js"></script>
+
 
 </body>
 </html>

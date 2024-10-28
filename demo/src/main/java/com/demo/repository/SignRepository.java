@@ -6,6 +6,7 @@ import com.demo.model.Sign;
 
 import java.sql.*;
 import java.time.LocalDateTime;
+import java.time.LocalTime;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -27,7 +28,7 @@ public class SignRepository {
                         resultSet.getInt(2),
                         resultSet.getInt(3),
                         resultSet.getInt(4),
-                        resultSet.getTime(5).toLocalTime(),
+                        Time.valueOf(resultSet.getObject(5, LocalTime.class)),
                         resultSet.getString(6),
                         resultSet.getObject(7, LocalDateTime.class),
                         resultSet.getObject(8, LocalDateTime.class)));
@@ -84,7 +85,7 @@ public class SignRepository {
                         resultSet.getInt(2),
                         resultSet.getInt(3),
                         resultSet.getInt(4),
-                        resultSet.getTime(5).toLocalTime(),
+                        resultSet.getTime(5),
                         resultSet.getString(6),
                         resultSet.getObject(7, LocalDateTime.class),
                         resultSet.getObject(8, LocalDateTime.class));

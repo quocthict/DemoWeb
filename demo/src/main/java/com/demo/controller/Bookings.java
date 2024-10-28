@@ -20,7 +20,7 @@ public class Bookings extends HttpServlet {
         List<Booking> list = bookingRepository.getAllBooking();
 
         //step2: push list of bookings to bookings.jsp
-        req.setAttribute("listBookings", list);
+        req.setAttribute("list", list);
         req.getRequestDispatcher("bookings.jsp").forward(req, resp);
     }
 }

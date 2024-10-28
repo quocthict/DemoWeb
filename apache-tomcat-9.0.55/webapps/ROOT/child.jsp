@@ -1,3 +1,6 @@
+<%@ page import="com.demo.repository.ContactsRepository" %>
+<%@ page import="com.demo.model.Contact" %>
+<%@ page import="java.util.List" %>
 <!doctype html>
 
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
@@ -25,41 +28,43 @@
     <!--google material icon-->
     <link href="https://fonts.googleapis.com/css2?family=Material+Icons" rel="stylesheet">
 
-<%--    <script src="js/contact.js"></script>--%>
+
 
     <script>
-        function confirmDelete(contactId) {
-            const confirmDiv = document.getElementById('deleteContactModal');
+        function confirmDelete(id) {
+            const confirmDiv = document.getElementById('deleteChildModal');
             const deleteButton = document.getElementById('deleteButton');
             // console.log(contactId);
             // console.log(confirmDiv);
             // console.log(deleteButton);
 
             deleteButton.onclick = function() {
-                window.location.href = 'contacts/contacts_delete?id=' + contactId;
+                window.location.href = '/child/child_delete?id=' + id;
             };
             confirmDiv.style.display = 'block';
         }
 
-        function showAddContactForm() {
-            document.getElementById('addContactModal').style.display = 'block';
+        function showAddChildForm() {
+            document.getElementById('addChildModal').style.display = 'block';
         }
 
-        function showEditContactForm(contactId, firstName, lastName, relationship) {
-            // console.log(contactId);
+        function showEditChildForm(id, firstName, lastName, gender, birthDate, createdDate, modifiedDate) {
+            console.log(id, firstName, lastName, gender, birthDate, createdDate, modifiedDate);
             // console.log(firstName);
             // console.log(lastName);
             // console.log(relationship);
-            document.getElementById('editContactId').value = contactId;
+            document.getElementById('editChildId').value = id;
             document.getElementById('editFirstName').value = firstName;
             document.getElementById('editLastName').value = lastName;
-            document.getElementById('editRelationship').value = relationship;
-            document.getElementById('editContactModal').style.display = 'block';
-            document.getElementById('addContactModal').style.display = 'none'; // Ẩn form thêm
+            document.getElementById('editGender').value = gender;
+            document.getElementById('editBirthDate').value = birthDate;
+            document.getElementById('editCreatedDate').value = createdDate;
+            document.getElementById('editModifiedDate').value = modifiedDate;
+
+            document.getElementById('editChildModal').style.display = 'block';
+            document.getElementById('addChildModal').style.display = 'none'; // Ẩn form thêm
         }
     </script>
-
-
 </head>
 
 <body>
@@ -273,17 +278,18 @@
                 <div class="col-md-12">
                     <div class="table-wrapper">
 
+                        <%--start of table--%>
                         <div class="table-title">
                             <div class="row">
                                 <div class="col-sm-6 p-0 flex justify-content-lg-start justify-content-center">
-                                    <h2 class="ml-lg-2">Manage Contacts</h2>
+                                    <h2 class="ml-lg-2">Manage Children</h2>
                                 </div>
                                 <div class="col-sm-6 p-0 flex justify-content-lg-end justify-content-center">
-                                    <a href="#addContactModal" onclick="showAddContactForm();" class="btn btn-success" data-toggle="modal">
+                                    <a href="#addChildModal" onclick="showAddChildForm();" class="btn btn-success" data-toggle="modal">
                                         <i class="material-icons">&#xE147;</i>
-                                        <span>Add New Contacts</span>
+                                        <span>Add New Child</span>
                                     </a>
-                                    <a href="#deleteContactModal" class="btn btn-danger" data-toggle="modal">
+                                    <a href="#deleteChildModal" class="btn btn-danger" data-toggle="modal">
                                         <i class="material-icons">&#xE15C;</i>
                                         <span>Delete</span>
                                     </a>
@@ -300,32 +306,46 @@
                                     <label for="selectAll"></label>
                                 </span></th>
                                 <th>Id</th>
-                                <th>First Name</th>
-                                <th>Last Name</th>
-                                <th>Relationship</th>
-                                <th>Actions</th>
+                                <th>First name</th>
+                                <th>Last name</th>
+                                <th>Gender</th>
+                                <th>Birth date</th>
+                                <th>Created date</th>
+                                <th>Modified</th>
                             </tr>
                             </thead>
 
                             <tbody>
                             <%--Show list of items--%>
-                            <c:forEach items="${listContacts}" var="x">
+                            <c:forEach items="${list}" var="x">
                                 <tr>
                                     <th>
                                     <span class="custom-checkbox">
                                     <input type="checkbox" id="checkbox1" name="option[]" value="1">
                                         <label for="checkbox1"></label></span>
                                     </th>
-                                    <th>${x.getId()}</th>
-                                    <th>${x.getFirst_name()}</th>
-                                    <th>${x.getLast_name()}</th>
-                                    <th>${x.getRelationship()}</th>
+                                    <td>${x.getId()}</td>
+                                    <td>${x.getFirst_name()}</td>
+                                    <td>${x.getLast_name()}</td>
+                                    <td>
+                                        <c:choose>
+                                            <c:when test = "${x.getGender() == 1}">
+                                                Male
+                                            </c:when>
+                                            <c:when test = "${x.getGender() == 0}">
+                                                Female
+                                            </c:when>
+                                        </c:choose>
+                                    </td>
+                                    <td>${x.getBirth_date()}</td>
+                                    <td>${x.getCreated_date()}</td>
+                                    <td>${x.getModified_date()}</td>
                                     <th>
-                                        <a href="#editContactModal" onclick="showEditContactForm(${x.getId()},'${x.getFirst_name()}','${x.getLast_name()}','${x.getRelationship()}'); return false;" class="edit" data-toggle="modal">
+                                        <a href="#editChildModal" onclick="showEditChildForm(${x.getId()},'${x.getFirst_name()}','${x.getLast_name()}','${x.getGender()}','${x.getBirth_date()}','${x.getCreated_date()}','${x.getModified_date()}'); return false;" class="edit" data-toggle="modal">
                                             <i class="material-icons" data-toggle="tooltip" title="Edit">&#xE254;</i>
                                         </a>
-<%--                                        <a href="#deleteEmployeeModal" class="delete" data-toggle="modal">--%>
-                                        <a href="#deleteContactModal" onclick="confirmDelete(${x.getId()}); return false;"  class="delete" data-toggle="modal">
+
+                                        <a href="#deleteChildModal" onclick="confirmDelete(${x.getId()}); return false;"  class="delete" data-toggle="modal">
                                             <i class="material-icons" data-toggle="tooltip" title="Delete">&#xE872;</i>
                                         </a>
                                     </th>
@@ -352,34 +372,55 @@
 
 
                 <!----add-modal start--------->
-                <div class="modal fade" tabindex="-1" id="addContactModal" role="dialog">
+                <div class="modal fade" tabindex="-1" id="addChildModal" role="dialog">
                     <div class="modal-dialog" role="document">
                         <div class="modal-content">
                             <div class="modal-header">
-                                <h5 class="modal-title">Add Employees</h5>
+                                <h5 class="modal-title">Add Child</h5>
                                 <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                                     <span aria-hidden="true">&times;</span>
                                 </button>
                             </div>
-                            <form action="/contacts/contacts_add" method="post">
+                            <form action="/child/child_add" method="post">
                                 <div class="modal-body">
+
                                     <div class="form-group">
                                         <label>First name</label>
                                         <input id="first_name" name="first_name" type="text" class="form-control" required>
                                     </div>
+
                                     <div class="form-group">
                                         <label>Last name</label>
                                         <input id="last_name" name="last_name" type="text" class="form-control" required>
                                     </div>
-<%--                                    <div class="form-group">--%>
-<%--                                        <label>Address</label>--%>
-<%--                                        <textarea class="form-control" required></textarea>--%>
-<%--                                    </div>--%>
+
                                     <div class="form-group">
-                                        <label>Relationship</label>
-                                        <input id="relationship" name="relationship" type="text" class="form-control" required>
+                                        <label>Gender</label> &nbsp;
+                                        <input id="male" type="radio" name="gender" value="1" checked/>Male
+                                        <input id="female" type="radio" name="gender" value="0" />Female
+                                    </div>
+
+                                    <div class="form-group">
+                                        <label>Birth date</label>
+                                        <input id="birth_date" name="birth_date" type="date" class="form-control" required>
+                                    </div>
+
+                                    <%
+                                        //create a room array and put it into a request-scop
+                                        ContactsRepository contactsRepository = new ContactsRepository();
+                                        List<Contact> contactList = contactsRepository.getAllContact();
+                                        request.setAttribute("contactList", contactList);
+                                    %>
+                                    <div class="form-group">
+                                        <label>Contact Id</label> &nbsp;
+                                        <select id="contacts" name="contact_id" class="form-control">
+                                            <c:forEach var="contact" items="${contactList}">
+                                                <option value="${contact.id}">${contact.first_name}</option>
+                                            </c:forEach>
+                                        </select>
                                     </div>
                                 </div>
+
                                 <div class="modal-footer">
                                     <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancel</button>
                                     <button type="submit" class="btn btn-success">Add</button>
@@ -392,21 +433,20 @@
 
 
                 <!----edit-modal start--------->
-                <div class="modal fade" tabindex="-1" id="editContactModal" role="dialog">
+                <div class="modal fade" tabindex="-1" id="editChildModal" role="dialog">
                     <div class="modal-dialog" role="document">
                         <div class="modal-content">
                             <div class="modal-header">
-                                <h5 class="modal-title">Edit Employees</h5>
+                                <h5 class="modal-title">Edit Child</h5>
                                 <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                                     <span aria-hidden="true">&times;</span>
                                 </button>
                             </div>
 
-                            <form action="/contacts/contacts_update" method="post">
+                            <form action="/child/child_update" method="post">
                                 <div class="modal-body">
                                     <div class="form-group">
-    <%--                                <label></label>--%>
-                                        <input id="editContactId" name="id" type="text" class="form-control" hidden="hidden">
+                                        <input id="editChildId" name="id" type="text" class="form-control" hidden="hidden">
                                     </div>
                                     <div class="form-group">
                                         <label>First name</label>
@@ -417,8 +457,20 @@
                                         <input id="editLastName" name="last_name" type="text" class="form-control" required>
                                     </div>
                                     <div class="form-group">
-                                        <label>Relationship</label>
-                                        <input id="editRelationship" name="relationship" type="text" class="form-control" required>
+                                        <label>Gender</label>
+                                        <input id="editGender" name="gender" type="text" class="form-control" required>
+                                    </div>
+                                    <div class="form-group">
+                                        <label>Birth date</label>
+                                        <input id="editBirthDate" name="birth_date" type="date" class="form-control" required>
+                                    </div>
+                                    <div class="form-group">
+<%--                                        <label>Created date</label>--%>
+                                        <input id="editCreatedDate" name="created_date" type="text" class="form-control" hidden="hidden">
+                                    </div>
+                                    <div class="form-group">
+<%--                                        <label>Modified date</label>--%>
+                                        <input id="editModifiedDate" name="modified_date" type="text" class="form-control" hidden="hidden">
                                     </div>
                                 </div>
                                 <div class="modal-footer">
@@ -433,7 +485,7 @@
 
 
                 <!----delete-modal start OK--------->
-                <div class="modal fade" tabindex="-1" id="deleteContactModal" role="dialog">
+                <div class="modal fade" tabindex="-1" id="deleteChildModal" role="dialog">
                     <div class="modal-dialog" role="document">
                         <div class="modal-content">
                             <div class="modal-header">

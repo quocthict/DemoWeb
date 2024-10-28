@@ -28,34 +28,42 @@
 <%--    <script src="js/contact.js"></script>--%>
 
     <script>
-        function confirmDelete(contactId) {
-            const confirmDiv = document.getElementById('deleteContactModal');
+        function confirmDelete(id) {
+            const confirmDiv = document.getElementById('deleteBookingModal');
             const deleteButton = document.getElementById('deleteButton');
             // console.log(contactId);
             // console.log(confirmDiv);
             // console.log(deleteButton);
 
             deleteButton.onclick = function() {
-                window.location.href = 'contacts/contacts_delete?id=' + contactId;
+                window.location.href = '/bookings/bookings_delete?id=' + id;
             };
             confirmDiv.style.display = 'block';
         }
 
-        function showAddContactForm() {
-            document.getElementById('addContactModal').style.display = 'block';
+        function showAddBookingForm() {
+            document.getElementById('addBookingModal').style.display = 'block';
         }
 
-        function showEditContactForm(contactId, firstName, lastName, relationship) {
-            // console.log(contactId);
-            // console.log(firstName);
+        function showEditBookingForm(id, childId, room, bookedDate, bookedTimeFrom, bookedTimeTo) {
+            console.log(id, childId, room, bookedDate, bookedTimeFrom, bookedTimeTo);
+            // console.log(child);
             // console.log(lastName);
             // console.log(relationship);
-            document.getElementById('editContactId').value = contactId;
-            document.getElementById('editFirstName').value = firstName;
-            document.getElementById('editLastName').value = lastName;
-            document.getElementById('editRelationship').value = relationship;
-            document.getElementById('editContactModal').style.display = 'block';
-            document.getElementById('addContactModal').style.display = 'none'; // Ẩn form thêm
+            document.getElementById('editBookingId').value = id;
+            document.getElementById('editChildId').value = childId;
+
+            document.getElementById('editRoom').value = room;
+
+            // const defaultRoom = room;
+            // const selected = document.getElementById('rooms');
+            // selected.value = defaultRoom;
+
+            document.getElementById('editBookedDate').value = bookedDate;
+            document.getElementById('editBookedTimeFrom').value = bookedTimeFrom;
+            document.getElementById('editBookedTimeTo').value = bookedTimeTo;
+            document.getElementById('editBookingModal').style.display = 'block';
+            document.getElementById('addBookingModal').style.display = 'none'; // Ẩn form thêm
         }
     </script>
 
@@ -258,7 +266,7 @@
                 <div class="xp-breadcrumbbar text-center">
                     <h4 class="page-title">Welcome</h4>
                     <ol class="breadcrumb">
-                        <li class="breadcrumb-item"><a href="#">Data management</a></li>
+                        <li class="breadcrumb-item"><a href="#">Booking management</a></li>
                         <li class="breadcrumb-item active" aria-curent="page">Dashboard</li>
                     </ol>
                 </div>
@@ -276,14 +284,14 @@
                         <div class="table-title">
                             <div class="row">
                                 <div class="col-sm-6 p-0 flex justify-content-lg-start justify-content-center">
-                                    <h2 class="ml-lg-2">Manage Contacts</h2>
+                                    <h2 class="ml-lg-2">Manage Bookings</h2>
                                 </div>
                                 <div class="col-sm-6 p-0 flex justify-content-lg-end justify-content-center">
-                                    <a href="#addContactModal" onclick="showAddContactForm();" class="btn btn-success" data-toggle="modal">
+                                    <a href="#addBookingModal" onclick="showAddBookingForm();" class="btn btn-success" data-toggle="modal">
                                         <i class="material-icons">&#xE147;</i>
                                         <span>Add New Contacts</span>
                                     </a>
-                                    <a href="#deleteContactModal" class="btn btn-danger" data-toggle="modal">
+                                    <a href="#deleteBookingModal" class="btn btn-danger" data-toggle="modal">
                                         <i class="material-icons">&#xE15C;</i>
                                         <span>Delete</span>
                                     </a>
@@ -292,6 +300,7 @@
                         </div>
 
                         <table class="table table-striped table-hover">
+
                             <%--Table header--%>
                             <thead>
                             <tr>
@@ -300,32 +309,39 @@
                                     <label for="selectAll"></label>
                                 </span></th>
                                 <th>Id</th>
-                                <th>First Name</th>
-                                <th>Last Name</th>
-                                <th>Relationship</th>
-                                <th>Actions</th>
+                                <th>Child ID</th>
+                                <th>Room</th>
+                                <th>Booked date</th>
+                                <th>Book time from</th>
+                                <th>Book time to</th>
+                                <th>Created date</th>
+                                <th>Modified date</th>
                             </tr>
                             </thead>
 
                             <tbody>
                             <%--Show list of items--%>
-                            <c:forEach items="${listContacts}" var="x">
+                            <c:forEach items="${list}" var="x">
                                 <tr>
                                     <th>
                                     <span class="custom-checkbox">
                                     <input type="checkbox" id="checkbox1" name="option[]" value="1">
                                         <label for="checkbox1"></label></span>
                                     </th>
-                                    <th>${x.getId()}</th>
-                                    <th>${x.getFirst_name()}</th>
-                                    <th>${x.getLast_name()}</th>
-                                    <th>${x.getRelationship()}</th>
+                                    <td>${x.getId()}</td>
+                                    <td>${x.getChild_id()}</td>
+                                    <td>${x.getRoom()}</td>
+                                    <td>${x.getBooked_date()}</td>
+                                    <td>${x.getBooked_time_from()}</td>
+                                    <td>${x.getBooked_time_to()}</td>
+                                    <td>${x.getCreated_date()}</td>
+                                    <td>${x.getModified_date()}</td>
                                     <th>
-                                        <a href="#editContactModal" onclick="showEditContactForm(${x.getId()},'${x.getFirst_name()}','${x.getLast_name()}','${x.getRelationship()}'); return false;" class="edit" data-toggle="modal">
+                                        <a href="#editBookingModal" onclick="showEditBookingForm(${x.getId()},'${x.getChild_id()}','${x.getRoom()}','${x.getBooked_date()}','${x.getBooked_time_from()}','${x.getBooked_time_to()}'); return false;" class="edit" data-toggle="modal">
                                             <i class="material-icons" data-toggle="tooltip" title="Edit">&#xE254;</i>
                                         </a>
 <%--                                        <a href="#deleteEmployeeModal" class="delete" data-toggle="modal">--%>
-                                        <a href="#deleteContactModal" onclick="confirmDelete(${x.getId()}); return false;"  class="delete" data-toggle="modal">
+                                        <a href="#deleteBookingModal" onclick="confirmDelete(${x.getId()}); return false;"  class="delete" data-toggle="modal">
                                             <i class="material-icons" data-toggle="tooltip" title="Delete">&#xE872;</i>
                                         </a>
                                     </th>
@@ -352,34 +368,57 @@
 
 
                 <!----add-modal start--------->
-                <div class="modal fade" tabindex="-1" id="addContactModal" role="dialog">
+                <div class="modal fade" tabindex="-1" id="addBookingModal" role="dialog">
                     <div class="modal-dialog" role="document">
                         <div class="modal-content">
                             <div class="modal-header">
-                                <h5 class="modal-title">Add Employees</h5>
+                                <h5 class="modal-title">Add Bookings</h5>
                                 <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                                     <span aria-hidden="true">&times;</span>
                                 </button>
                             </div>
-                            <form action="/contacts/contacts_add" method="post">
+                            <form action="/bookings/bookings_add" method="post">
                                 <div class="modal-body">
+                                    <%--child-id--%>
                                     <div class="form-group">
-                                        <label>First name</label>
-                                        <input id="first_name" name="first_name" type="text" class="form-control" required>
+                                        <label>Child Id</label>
+                                        <input id="child_id" name="child_id" type="text" class="form-control" required>
                                     </div>
+
+                                    <%--room--%>
+                                    <%
+                                        //create a room array and put it into a request-scop
+                                        String[] roomList = { "1","2", "3", "4", "5"};
+                                        request.setAttribute("roomList", roomList);
+                                    %>
                                     <div class="form-group">
-                                        <label>Last name</label>
-                                        <input id="last_name" name="last_name" type="text" class="form-control" required>
+                                        <label>Room</label>
+                                        <select id="rooms" name="room" class="form-control">
+                                            <c:forEach var="room" items="${roomList}">
+                                                <option value="${room}">${room}</option>
+                                            </c:forEach>
+                                        </select>
                                     </div>
-<%--                                    <div class="form-group">--%>
-<%--                                        <label>Address</label>--%>
-<%--                                        <textarea class="form-control" required></textarea>--%>
-<%--                                    </div>--%>
+
+                                    <%--Booked date --%>
                                     <div class="form-group">
-                                        <label>Relationship</label>
-                                        <input id="relationship" name="relationship" type="text" class="form-control" required>
+                                        <label>Booked date</label>
+                                        <input id="booked_date" name="booked_date" type="date" class="form-control" required>
+                                    </div>
+
+                                    <%--Booked time from --%>
+                                    <div class="form-group">
+                                        <label>Booked time from</label>
+                                        <input id="booked_time_from" name="booked_time_from" type="time" class="form-control" required>
+                                    </div>
+
+                                    <%--Booked time to --%>
+                                    <div class="form-group">
+                                        <label>Booked time to</label>
+                                        <input id="booked_time_to" name="booked_time_to" type="time" class="form-control" required>
                                     </div>
                                 </div>
+
                                 <div class="modal-footer">
                                     <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancel</button>
                                     <button type="submit" class="btn btn-success">Add</button>
@@ -392,34 +431,71 @@
 
 
                 <!----edit-modal start--------->
-                <div class="modal fade" tabindex="-1" id="editContactModal" role="dialog">
+                <div class="modal fade" tabindex="-1" id="editBookingModal" role="dialog">
                     <div class="modal-dialog" role="document">
                         <div class="modal-content">
                             <div class="modal-header">
-                                <h5 class="modal-title">Edit Employees</h5>
+                                <h5 class="modal-title">Edit Bookings</h5>
                                 <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                                     <span aria-hidden="true">&times;</span>
                                 </button>
                             </div>
 
-                            <form action="/contacts/contacts_update" method="post">
+                            <form action="/bookings/bookings_update" method="post">
                                 <div class="modal-body">
+
+                                    <%--Booking_id--%>
+                                    <input id="editBookingId" name="id" type="text" class="form-control" hidden="hidden">
+
+                                    <%--Child id--%>
                                     <div class="form-group">
-    <%--                                <label></label>--%>
-                                        <input id="editContactId" name="id" type="text" class="form-control" hidden="hidden">
+                                        <label>Child id</label>
+                                        <input id="editChildId" name="child_id" type="text" class="form-control" required>
                                     </div>
+
+                                    <%--Child id--%>
                                     <div class="form-group">
-                                        <label>First name</label>
-                                        <input id="editFirstName" name="first_name" type="text" class="form-control" required>
+                                        <label>Room</label>
+                                        <input id="editRoom" name="room" type="text" class="form-control" required>
                                     </div>
+
+<%--                                    &lt;%&ndash;Room&ndash;%&gt;--%>
+<%--                                    <div class="form-group">--%>
+<%--                                        <label>Room</label>--%>
+
+<%--                                        <%--%>
+<%--                                            //create a room array and put it into a request-scop--%>
+<%--                                            Integer[] roomListUpdate = {1,2,3,4,5};--%>
+<%--                                            request.setAttribute("roomListUpdate", roomListUpdate);--%>
+<%--                                        %>--%>
+
+<%--                                        <select id="rooms" name="room">--%>
+<%--                                            <c:forEach var="room" items="${roomListUpdate}">--%>
+<%--                                                <option value="${room}">${room}</option>--%>
+<%--                                            </c:forEach>--%>
+<%--                                        </select>--%>
+
+<%--                                    </div>--%>
+
+                                    <%--Booked date--%>
                                     <div class="form-group">
-                                        <label>Last name</label>
-                                        <input id="editLastName" name="last_name" type="text" class="form-control" required>
+                                        <label>Booked date</label>
+                                        <input id="editBookedDate" name="booked_date" type="date" class="form-control" required>
                                     </div>
+
+                                    <%--Booked time from--%>
                                     <div class="form-group">
-                                        <label>Relationship</label>
-                                        <input id="editRelationship" name="relationship" type="text" class="form-control" required>
+                                        <label>Booked time from</label>
+                                        <input id="editBookedTimeFrom" name="booked_time_from" type="time" class="form-control" required>
                                     </div>
+
+                                    <%--Booked time to--%>
+                                    <div class="form-group">
+                                        <label>Booked time to</label>
+                                        <input id="editBookedTimeTo" name="booked_time_to" type="time" class="form-control" required>
+                                    </div>
+
+
                                 </div>
                                 <div class="modal-footer">
                                     <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancel</button>
@@ -433,11 +509,11 @@
 
 
                 <!----delete-modal start OK--------->
-                <div class="modal fade" tabindex="-1" id="deleteContactModal" role="dialog">
+                <div class="modal fade" tabindex="-1" id="deleteBookingModal" role="dialog">
                     <div class="modal-dialog" role="document">
                         <div class="modal-content">
                             <div class="modal-header">
-                                <h5 class="modal-title">Delete Employees</h5>
+                                <h5 class="modal-title">Delete Bookings</h5>
                                 <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                                     <span aria-hidden="true">&times;</span>
                                 </button>
