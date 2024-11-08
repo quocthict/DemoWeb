@@ -26,6 +26,14 @@ public class Booking {
         this.modified_date = modified_date;
     }
 
+    public Booking(int id, int room, LocalDate booked_date, Time booked_time_from, Time booked_time_to) {
+        this.id = id;
+        this.room = room;
+        this.booked_date = booked_date;
+        this.booked_time_from = booked_time_from;
+        this.booked_time_to = booked_time_to;
+    }
+
     public int getId() {
         return id;
     }

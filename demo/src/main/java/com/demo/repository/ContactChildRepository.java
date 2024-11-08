@@ -54,7 +54,7 @@ public class ContactChildRepository {
 
     public void deleteContactChildByChildID (int child_id) {
         String query = "delete from contact_child where child_id = ?;";
-        try{
+        try {
             connection = new MysqlConnection().getConnection();
             preparedStatement = connection.prepareStatement(query);
             preparedStatement.setInt(1, child_id);
@@ -62,9 +62,7 @@ public class ContactChildRepository {
         } catch (Exception e) {
             throw new RuntimeException(e);
         }
-
     }
 
-
-
 }
+

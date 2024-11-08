@@ -1,9 +1,7 @@
 package com.demo.controller;
 
 import com.demo.model.Contact;
-import com.demo.repository.ContactsRepository;
-import com.demo.service.ContactService;
-import com.demo.service.imp.ContactServiceImp;
+import com.demo.repository.ContactRepository;
 
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
@@ -17,11 +15,11 @@ import java.util.List;
 public class Contacts extends HttpServlet {
 
     public void doGet(HttpServletRequest req, HttpServletResponse resp) throws IOException, ServletException {
-        //step 1: get a list of contacts from ContactsRepository
-        ContactsRepository contactsRepository = new ContactsRepository();
-        List<Contact> list = contactsRepository.getAllContact();
+        //step 1: get a list of contacts from ContactRepository
+        ContactRepository contactRepository = new ContactRepository();
+        List<Contact> list = contactRepository.getAllContact();
 
-//        ContactService contactService = new ContactService();
+//        ContactServiceApi contactService = new ContactServiceApi();
 //        List<Contact> list = contactService.getContactList();
 
         //step 2: send data into contacts.jsp
@@ -29,7 +27,7 @@ public class Contacts extends HttpServlet {
         req.getRequestDispatcher("contacts.jsp").forward(req, resp);
     }
 
-//    private ContactService contactService = new ContactService();
+//    private ContactServiceApi contactService = new ContactServiceApi();
 //
 //    @Override
 //    protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {

@@ -1,7 +1,7 @@
 package com.demo.controller;
 
 
-import com.demo.repository.ContactsRepository;
+import com.demo.repository.ContactRepository;
 
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
@@ -17,9 +17,9 @@ public class ContactsDelete extends HttpServlet {
         //Step1: get contact id from delete button of contacts.jsp
         int id = Integer.parseInt(req.getParameter("id"));
 
-        //Step 2: push id into ContactsRepository.createContact
-        ContactsRepository contactsRepository = new ContactsRepository();
-        contactsRepository.deleteContact(id);
+        //Step 2: push id into ContactRepository.createContact
+        ContactRepository contactRepository = new ContactRepository();
+        contactRepository.deleteContact(id);
 
         //Step 3: show rest contacts at contacts.jsp
         resp.sendRedirect("/contacts");

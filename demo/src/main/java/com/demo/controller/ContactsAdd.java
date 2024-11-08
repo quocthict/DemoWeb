@@ -1,7 +1,7 @@
 package com.demo.controller;
 
 
-import com.demo.repository.ContactsRepository;
+import com.demo.repository.ContactRepository;
 
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
@@ -19,9 +19,9 @@ public class ContactsAdd extends HttpServlet {
         String last_name = req.getParameter("last_name");
         String relationship = req.getParameter("relationship");
 
-        //Step 2: push data into ContactsRepository.createContact
-        ContactsRepository contactsRepository = new ContactsRepository();
-        contactsRepository.createContact(first_name, last_name, relationship);
+        //Step 2: push data into ContactRepository.createContact
+        ContactRepository contactRepository = new ContactRepository();
+        contactRepository.addContact(first_name, last_name, relationship);
 
         //Step 3: show all contacts at contacts.jsp
         resp.sendRedirect("/contacts");

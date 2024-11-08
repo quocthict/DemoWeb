@@ -2,7 +2,7 @@ package com.demo.controller;
 
 
 import com.demo.model.Contact;
-import com.demo.repository.ContactsRepository;
+import com.demo.repository.ContactRepository;
 
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
@@ -18,9 +18,9 @@ public class ContactsUpdate extends HttpServlet {
         //Step1: get contact id from update button of contacts.jsp
         int id = Integer.parseInt(req.getParameter("id"));
 
-        //Step 2: push id into ContactsRepository.getContactById
-        ContactsRepository contactsRepository = new ContactsRepository();
-        Contact contact = contactsRepository.getContactById(id);
+        //Step 2: push id into ContactRepository.getContactById
+        ContactRepository contactRepository = new ContactRepository();
+        Contact contact = contactRepository.getContactById(id);
 
         //Step 3: Push contact with id into contacts_update.jsp form
         req.setAttribute("contact", contact);
@@ -35,9 +35,9 @@ public class ContactsUpdate extends HttpServlet {
         String relationship = req.getParameter("relationship");
         int id = Integer.parseInt(req.getParameter("id"));
 
-        //Step 2: push id into ContactsRepository.updateContact
-        ContactsRepository contactsRepository = new ContactsRepository();
-        contactsRepository.updateContact(first_name, last_name, relationship, id);
+        //Step 2: push id into ContactRepository.updateContact
+        ContactRepository contactRepository = new ContactRepository();
+        contactRepository.updateContact(first_name, last_name, relationship, id);
 
         //Step 3: show all contacts at contacts.jsp
         resp.sendRedirect("/contacts");

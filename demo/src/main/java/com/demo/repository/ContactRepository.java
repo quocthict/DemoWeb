@@ -2,6 +2,7 @@ package com.demo.repository;
 
 import com.demo.config.MysqlConnection;
 import com.demo.model.Contact;
+import com.demo.model.Children;
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;
@@ -9,25 +10,14 @@ import java.sql.ResultSet;
 import java.util.ArrayList;
 import java.util.List;
 
-public class ContactsRepository {
+public class ContactRepository {
     Connection connection = null;
     PreparedStatement preparedStatement = null;
     ResultSet resultSet = null;
 
-    // using for thymeleaf
-    private List<Contact> contacts = new ArrayList<>();
-    private int currentId = 1;
-
-    public List<Contact> findAll() {
-        return contacts;
-    }
-    //
-
-
     public List<Contact> getAllContact() {
         List<Contact> list = new ArrayList<>();
         String query = "select * from contact;";
-
         try {
             connection = new MysqlConnection().getConnection();
             preparedStatement = connection.prepareStatement(query);
@@ -44,7 +34,7 @@ public class ContactsRepository {
         return list;
     }
 
-    public void createContact(String first_name, String last_name, String relationship){
+    public void addContact(String first_name, String last_name, String relationship){
         String query = "insert into contact(first_name, last_name, relationship) values (?,?,?);";
         try{
             connection = new MysqlConnection().getConnection();

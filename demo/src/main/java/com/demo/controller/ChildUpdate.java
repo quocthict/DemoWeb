@@ -1,9 +1,7 @@
 package com.demo.controller;
 
 import com.demo.model.Child;
-import com.demo.model.Contact;
 import com.demo.repository.ChildRepository;
-import com.demo.repository.ContactsRepository;
 
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
@@ -25,7 +23,7 @@ public class ChildUpdate extends HttpServlet {
         //Step1: get contact id from update button of child.jsp
         int id = Integer.parseInt(req.getParameter("id"));
 
-        //Step 2: push id into ContactsRepository.getContactById
+        //Step 2: push id into ContactRepository.getContactById
         ChildRepository childRepository = new ChildRepository();
         Child child = childRepository.getChildById(id);
 
@@ -54,7 +52,7 @@ public class ChildUpdate extends HttpServlet {
         LocalDateTime modified_date = LocalDateTime.now();
 
 
-        //Step 2: push id into ContactsRepository.updateContact
+        //Step 2: push id into ContactRepository.updateContact
         ChildRepository childRepository = new ChildRepository();
         childRepository.updateChild(first_name, last_name, gender, birth_date, modified_date, id);
 

@@ -1,0 +1,8 @@
+git status
+
+git add .
+git commit -m "comment content"
+git branch -M origin main
+git remote add origin https://github.com/quocthict/DemoWeb
+git push -u origin main
+

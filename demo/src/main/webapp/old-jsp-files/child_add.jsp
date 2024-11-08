@@ -1,6 +1,7 @@
-<%@ page import="com.demo.repository.ContactsRepository" %>
+<%@ page import="com.demo.repository.ContactRepository" %>
 <%@ page import="com.demo.model.Contact" %>
-<%@ page import="java.util.List" %><%--
+<%@ page import="java.util.List" %>
+<%@ page import="com.demo.repository.ContactRepository" %><%--
   Created by IntelliJ IDEA.
   User: OS
   Date: 9/20/2024
@@ -19,8 +20,8 @@
 <body>
     <%
         //create a room array and put it into a request-scop
-        ContactsRepository contactsRepository = new ContactsRepository();
-        List<Contact> contactList = contactsRepository.getAllContact();
+        ContactRepository contactRepository = new ContactRepository();
+        List<Contact> contactList = contactRepository.getAllContact();
         request.setAttribute("contactList", contactList);
     %>
 

@@ -38,6 +38,9 @@ public class Contact {
         this.relationship = relationship;
     }
 
+    public Contact() {
+    }
+
     public Contact(int id, String first_name, String last_name, String relationship) {
         this.id = id;
         this.first_name = first_name;
